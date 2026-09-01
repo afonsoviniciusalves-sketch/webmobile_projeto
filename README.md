@@ -5,7 +5,7 @@ O projeto consiste no desenvolvimento de uma plataforma web que tem como objetiv
 A plataforma busca facilitar o contato entre clientes e desenvolvedores, permitindo que o usuário encontre profissionais de acordo com critérios como preço e prazo de desenvolvimento.
 Além disso, o cliente poderá apresentar referências visuais do site que deseja desenvolver, enviando imagens ou referências de outros sites para demonstrar ao programador o estilo, layout ou modelo que pretende utilizar.
 
-![wireframe](Downloads/imagens/IMG_4902.jpg)
+![wireframe](Downloads/imagens/IMG_4902.jpeg)
 
 
 #Equipe
