@@ -1,0 +1,78 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.header-site {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background: #0f2a4a;
+    color: #ffffff;
+}
+
+/* Logo */
+.header-site a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.logo-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: #2e8bff;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+.nome-logo {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.navegacao ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 2rem;
+}
+
+.navegacao a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 0.95rem;
+}
+
+.navegacao a:hover {
+    color: #a9c9f0;
+}
+
+/* Ações do topo */
+.acoes-topo {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-entrar {
+    text-decoration: none;
+    color: #ffffff;
+    background: #2e8bff;
+    border: 1px solid #2e8bff;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.btn-entrar:hover {
+    background: #ffffff;
+    color: #0f2a4a;
+}
