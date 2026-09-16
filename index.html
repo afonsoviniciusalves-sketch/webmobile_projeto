@@ -16,66 +16,86 @@
 
         <nav class="navegacao">
             <ul>
-                <li><a href="#sobre">Sobre</a></li>
                 <li><a href="#produtos">Produtos</a></li>
             </ul>
         </nav>
 
         <div class="acoes-topo">
-            <a href="" class="btn-entrar">ENTRAR</a>    
+            <a href="login.html" class="btn-entrar">ENTRAR</a>
         </div>
-
     </header>
 
     <main>
-        
-        <section>
-            <h1>FAÇA PARTE DO PROJETO EXTENSIONISTA</h1>
-            <p>EX...</p>
-            <a href="#fale-conosco">FALE COM UM PROGRAMADOR</a>
+
+        <section class="hero">
+            <div class="hero-conteudo">
+                <h1 class="fade-item">FAÇA PARTE DO PROJETO EXTENSIONISTA</h1>
+                <a href="#fale-conosco" class="fade-item">FAÇA PARTE!</a>
+
+                <span class="descubra-mais fade-item">
+                    <span class="seta">↓</span> Mais informações abaixo
+                </span>
+            </div>
         </section>
 
-        <section>
+        <section class="sobre" id="sobre">
+            <h2 class="fade-item">COMO FUNCIONA</h2>
+
+            <ol class="passos">
+                <li class="passo fade-item">
+                    <span class="passo-numero">1</span>
+                    <h3>Conheça o projeto</h3>
+                    <p>Assim que você chega ao site, apresentamos o Projeto Extensionista e explicamos como ele conecta clientes que precisam de um site a desenvolvedores que estão colocando a mão na massa em projetos reais.</p>
+                </li>
+
+                <li class="passo fade-item">
+                    <span class="passo-numero">2</span>
+                    <h3>Escolha seu acesso</h3>
+                    <p>Você faz login ou cadastro escolhendo um dos dois perfis disponíveis: Cliente ou Desenvolvedor. Cada perfil tem seu próprio cadastro.</p>
+                </li>
+
+                <li class="passo fade-item">
+                    <span class="passo-numero">3</span>
+                    <h3>Área do Cliente</h3>
+                    <p>Ao entrar como Cliente, você é direcionado a um hub central, onde pode visualizar os projetos publicados pelos desenvolvedores.</p>
+                </li>
+
+                <li class="passo fade-item">
+                    <span class="passo-numero">4</span>
+                    <h3>Área do Desenvolvedor</h3>
+                    <p>No seu perfil: dados de contato no topo, barra lateral com os projetos que você já publicou, e um botão para adicionar novos.</p>
+                </li>
+
+                <li class="passo fade-item">
+                    <span class="passo-numero">5</span>
+                    <h3>Visualização pública</h3>
+                    <p>Quando um Cliente clica em um projeto, é levado ao perfil daquele desenvolvedor — em modo visualização, sem editar ou postar.</p>
+                </li>
+            </ol>
+        </section>
+
+        <section class="projetos" id="produtos">
             <header>
-                <h2>EXEMPLOS DE PROJETOS</h2>
+                <h2 class="fade-item">EXEMPLO DE PROJETO</h2>
             </header>
 
-            <div>
-                <article>
-                    <h3>SITE 1</h3>
-                    <div>
-                        <p>Linhas de texto</p>
-                        <p>Linhas de texto</p>
-                    </div>
-                </article>
-
-                <article>
-                    <h3>SITE 2</h3>
-                    <div>
-                        <p>Linhas de texto</p>
-                        <p>Linhas de texto</p>
-                    </div>
-                </article>
-
-                <article>
-                    <h3>SITE 3</h3>
-                    <div>
-                        <p>Linhas de texto</p>
-                        <p>Linhas de texto</p>
-                    </div>
-                </article>
-
-                <article>
-                    <h3>SITE 4</h3>
-                    <div>
-                        <p>Linhas de texto</p>
-                        <p>Linhas de texto</p>
-                    </div>
-                </article>
-            </div>
+            <article class="card-projeto fade-item">
+                <div class="card-projeto-imagem"></div>
+                <div class="card-projeto-conteudo">
+                    <h3>Nome do Projeto</h3>
+                    <p>Descrição curta explicando o que o projeto resolve e para quem ele foi feito.</p>
+                    <ul class="tecnologias">
+                        <li>HTML</li>
+                        <li>CSS</li>
+                        <li>JavaScript</li>
+                    </ul>
+                    <a href="#" class="link-projeto">VER PROJETO</a>
+                </div>
+            </article>
         </section>
 
     </main>
 
+    <script src="script.js"></script>
 </body>
 </html>
