@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styleprodutos.css">
+    <title>Produtos - Projeto Extensionista | Mackenzie</title>
+</head>
+<body>
+
+    <header class="header-site">
+        <a href="index.html">
+            <span class="logo-icone">M</span>
+            <span class="nome-logo">Mackenzie</span>
+        </a>
+
+        <nav class="navegacao">
+            <ul>
+                <li><a href="produtos.html">Produtos</a></li>
+            </ul>
+        </nav>
+
+        <div class="acoes-topo">
+            <a href="login.html" class="btn-entrar">ENTRAR</a>
+        </div>
+    </header>
+
+    <main>
+
+        <section class="produtos-topo">
+            <h1 class="fade-item">NOSSOS PROJETOS</h1>
+            <p class="fade-item">Conheça os projetos desenvolvidos pela nossa comunidade.</p>
+        </section>
+
+        <section class="filtros-secao">
+            <div id="filtros" class="filtros fade-item"></div>
+            <button class="ordenar-btn fade-item" onclick="ordenarPorNome()">Ordenar por nome (A-Z)</button>
+        </section>
+
+        <section class="grid-secao">
+            <div id="gridProdutos" class="grid-produtos"></div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+    <script src="script-produtos.js"></script>
+</body>
+</html>
