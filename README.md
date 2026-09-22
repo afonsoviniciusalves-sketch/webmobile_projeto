@@ -6,7 +6,7 @@ O projeto consiste no desenvolvimento de uma plataforma web que tem como objetiv
 
 A plataforma busca facilitar o contato entre clientes e desenvolvedores, permitindo que o usuário encontre profissionais de acordo com critérios como preço e prazo de desenvolvimento.
 
-Além disso, o cliente poderá apresentar referências visuais do site que deseja desenvolver, enviando imagens ou referências de outros sites.
+Além disso, o projeto apresenta uma área de projetos, permitindo visualizar diferentes projetos desenvolvidos pela comunidade, filtrar os projetos por tecnologia e ordená-los por nome.
 
 ![wireframe](./IMG_4902.jpeg)
 
@@ -19,15 +19,18 @@ Além disso, o cliente poderá apresentar referências visuais do site que desej
 
 ## Estrutura de arquivos
 
-O site é dividido em três páginas, cada uma com seu próprio CSS:
+O site possui quatro páginas HTML e arquivos CSS e JavaScript responsáveis pela estrutura, estilização e funcionalidades:
 
-| Página | HTML | CSS |
-|---|---|---|
-| Home | `index.html` | `style.css` |
-| Login | `login.html` | `stylelogin.css` |
-| Cadastro | `registrar.html` | `styleregistrar.css` |
+| Página | HTML | CSS | JavaScript |
+|---|---|---|---|
+| Home | `index.html` | `style.css` | `script.js` |
+| Login | `login.html` | `stylelogin.css` | — |
+| Cadastro | `registrar.html` | `styleregistrar.css` | — |
+| Produtos / Projetos | `produtos.html` | `styleprodutos.css` | `script.js` + `script-produtos.js` |
 
-A home também usa `script.js`, responsável pela animação de entrada dos elementos ao rolar a página.
+A página inicial utiliza `script.js` para controlar a aparição dos elementos marcados com a classe `fade-item`.
+
+A página de Produtos utiliza `script-produtos.js` para carregar os projetos a partir de um texto em JSON, transformar os dados em objetos, gerar os cards na página, criar os filtros por tecnologia e permitir a ordenação dos projetos por nome.
 
 ---
 
@@ -35,7 +38,7 @@ A home também usa `script.js`, responsável pela animação de entrada dos elem
 
 ## 1. Cabeçalho (`<header class="header-site">`)
 
-Responsável por apresentar a identidade visual e a navegação principal do site.
+Responsável por apresentar a identidade visual do projeto, o acesso à página de produtos e o botão de entrada.
 
 ```html
 <header class="header-site">
@@ -46,7 +49,7 @@ Responsável por apresentar a identidade visual e a navegação principal do sit
 
     <nav class="navegacao">
         <ul>
-            <li><a href="#produtos">Produtos</a></li>
+            <li><a href="produtos.html">Produtos</a></li>
         </ul>
     </nav>
 
@@ -58,16 +61,16 @@ Responsável por apresentar a identidade visual e a navegação principal do sit
 
 **Explicação:**
 
-* O logo inteiro (`<span class="logo-icone">` + `<span class="nome-logo">`) fica dentro de um único `<a href="index.html">`, para que clicar nele sempre recarregue a home e volte ao topo da página.
-* `<nav class="navegacao">`: contém o menu de navegação. Hoje só resta o item "Produtos" — o item "Sobre" foi removido do menu porque a seção "Sobre" já fica logo abaixo do banner, visível na rolagem natural da página.
-* `<div class="acoes-topo">`: os antigos dois botões separados ("CLIENTE" e "DEV") foram unificados em um único botão `.btn-entrar`, que leva à página de login compartilhada por ambos os perfis.
-* A classe `navegacao` (sem o acento de "navegação") foi escolhida deliberadamente — evitar acentos em nomes de classes e IDs evita problemas de encoding em alguns ambientes e editores.
+* O logo está dentro de um link para `index.html`, permitindo retornar à página inicial.
+* `<nav class="navegacao">` contém o acesso à página `produtos.html`, onde ficam os projetos da comunidade.
+* O botão `.btn-entrar` direciona para `login.html`.
+* A navegação da Home não possui mais um botão separado para Cliente e Desenvolvedor; existe um único acesso à tela de login.
 
 ---
 
 ## 2. Seção Principal / Banner (`<section class="hero">`)
 
-Apresenta a mensagem principal do projeto, um botão de chamada para ação e uma indicação de rolagem.
+Apresenta a mensagem principal do projeto, o botão de chamada para ação e uma indicação de que existem mais informações abaixo.
 
 ```html
 <section class="hero">
@@ -84,17 +87,17 @@ Apresenta a mensagem principal do projeto, um botão de chamada para ação e um
 
 **Explicação:**
 
-* `<h1>`: título principal da página, com destaque de tamanho e posição central.
-* `<a class="fade-item">`: funciona como botão de chamada para ação, levando o visitante a entrar em contato.
-* `<span class="descubra-mais">`: um indicativo visual (seta animada) sugerindo que existe mais conteúdo abaixo do banner.
-* A classe `fade-item`, presente em vários elementos, é o gancho usado pelo CSS e pelo JavaScript para a animação de entrada — ver a seção sobre `script.js` mais abaixo.
-* No CSS, o banner deixou de ser uma cor sólida e passou a ter uma imagem de fundo real (uma foto de código em tela desfocada, com um overlay escuro por cima para manter o texto legível), aplicada via pseudo-elementos `::before` (a imagem) e `::after` (o gradiente escuro), enquanto o conteúdo (`.hero-conteudo`) fica posicionado acima dos dois com `z-index`.
+* `<h1>` apresenta o título principal.
+* O link com texto `FAÇA PARTE!` funciona como chamada para ação.
+* `<span class="descubra-mais">` apresenta uma seta e a mensagem "Mais informações abaixo".
+* A classe `fade-item` é utilizada pelo `script.js` para controlar a aparição gradual dos elementos.
+* O fundo do banner utiliza `imagem-fundo.jpg` junto com um gradiente escuro para melhorar a leitura do texto.
 
 ---
 
 ## 3. Seção "Como Funciona" (`<section class="sobre" id="sobre">`)
 
-Explica, em passos numerados, o fluxo completo de uso da plataforma — da chegada do visitante até a visualização pública de um projeto.
+Apresenta, em cinco passos, a proposta de funcionamento da plataforma.
 
 ```html
 <section class="sobre" id="sobre">
@@ -136,16 +139,16 @@ Explica, em passos numerados, o fluxo completo de uso da plataforma — da chega
 
 **Explicação:**
 
-* `<ol class="passos">`: uma lista ordenada, já que os 5 passos seguem uma sequência lógica de uso do site.
-* Cada `<li class="passo">` representa uma etapa, numerada visualmente por `<span class="passo-numero">` (um círculo com o número, estilizado via CSS, não pela numeração automática da `<ol>`).
-* `<h3>` e `<p>`: título curto e descrição de cada etapa.
-* No CSS, cada `.passo` tem um `transition-delay` diferente (`nth-child(1)` a `nth-child(5)`), para que os 5 cards apareçam em sequência, um pouco depois do outro, em vez de todos ao mesmo tempo — reforçando visualmente a ideia de "passo a passo".
+* `<ol class="passos">` organiza as cinco etapas em uma lista ordenada.
+* Cada `<li class="passo">` representa uma etapa.
+* `<span class="passo-numero">` exibe visualmente o número de cada etapa.
+* Os elementos possuem a classe `fade-item`, permitindo que sua opacidade seja alterada pelo JavaScript.
 
 ---
 
 ## 4. Seção "Exemplo de Projeto" (`<section class="projetos" id="produtos">`)
 
-Mostra um exemplo de card de projeto publicado por um desenvolvedor.
+Apresenta um exemplo visual de projeto na página inicial e serve como acesso à ideia de projetos disponibilizados pela plataforma.
 
 ```html
 <section class="projetos" id="produtos">
@@ -171,48 +174,58 @@ Mostra um exemplo de card de projeto publicado por um desenvolvedor.
 
 **Explicação:**
 
-* Diferente da primeira versão do site (que tinha 4 cards rasos, um "SITE 1" a "SITE 4"), a seção foi simplificada para exibir **um único exemplo**, mais completo e representativo do que os cards reais terão quando o hub de projetos existir.
-* `<article class="card-projeto">`: representa o card do projeto, dividido em duas partes lado a lado — `.card-projeto-imagem` (reservada para uma imagem/thumbnail do projeto) e `.card-projeto-conteudo` (título, descrição, tecnologias usadas e botão).
-* `<ul class="tecnologias">`: lista as tecnologias do projeto como pequenas etiquetas (tags), estilizadas em linha com `display: flex`.
-* `<a class="link-projeto">`: botão que, futuramente, levará à página de visualização daquele projeto/desenvolvedor.
-* No modo responsivo (telas até 768px), o card muda de `flex-direction: row` para `column`, empilhando a imagem sobre o conteúdo.
+* `.card-projeto` representa um exemplo de projeto.
+* `.card-projeto-imagem` reserva o espaço para a imagem do projeto.
+* `.card-projeto-conteudo` contém nome, descrição, tecnologias e botão.
+* `.tecnologias` apresenta as tecnologias utilizadas.
+* `.link-projeto` representa o acesso ao projeto.
+* A página inicial mantém esse card como exemplo; a listagem de projetos efetivamente funcional está em `produtos.html`.
 
 ---
 
-# `script.js` — Animação de entrada (scroll-reveal)
+## 5. Rodapé (`<footer class="rodape-site">`)
 
-```js
-document.addEventListener('DOMContentLoaded', () => {
-    const itens = document.querySelectorAll('.fade-item');
+Exibe a identificação do projeto no final da página.
 
-    const observador = new IntersectionObserver((entradas, observer) => {
-        entradas.forEach(entrada => {
-            if (entrada.isIntersecting) {
-                entrada.target.classList.add('visivel');
-                observer.unobserve(entrada.target);
-            }
-        });
-    }, {
-        threshold: 0.15
-    });
-
-    itens.forEach(item => observador.observe(item));
-});
+```html
+<footer class="rodape-site">
+    <p>&copy; 2026 Projeto Extensionista - Mackenzie</p>
+</footer>
 ```
 
 **Explicação:**
 
-* `document.addEventListener('DOMContentLoaded', ...)`: garante que o script só rode depois que o HTML estiver totalmente carregado.
-* `document.querySelectorAll('.fade-item')`: seleciona todos os elementos marcados com a classe `fade-item` — título do banner, botão, seta, títulos das seções, cada passo do "Como Funciona" e o card de projeto.
-* `IntersectionObserver`: é uma API do navegador que "observa" elementos e avisa quando eles entram na área visível da tela (viewport), sem precisar ficar checando a posição de rolagem manualmente a cada scroll (o que seria mais custoso para o desempenho).
-* `threshold: 0.15`: o elemento é considerado "visível" quando pelo menos 15% dele aparece na tela.
-* Quando um `.fade-item` entra na tela, o script adiciona a classe `visivel` a ele (é essa classe que o CSS usa para animar a opacidade e a posição) e chama `observer.unobserve(entrada.target)`, parando de observar aquele elemento — a animação acontece apenas uma vez, na primeira vez que o item aparece.
+* `<footer>` representa o rodapé da página.
+* `&copy;` exibe o símbolo `©`.
+* O texto identifica o ano e o Projeto Extensionista - Mackenzie.
+
+---
+
+# `script.js` — Aparição dos elementos
+
+O arquivo `script.js` controla a opacidade dos elementos que possuem a classe `fade-item`.
+
+```js
+const itens = document.querySelectorAll(".fade-item");
+
+for (let i = 0; i < itens.length; i++) {
+    itens[i].style.opacity = "1";
+}
+```
+
+**Explicação:**
+
+* `document.querySelectorAll(".fade-item")` seleciona todos os elementos que possuem a classe `fade-item`.
+* O `for` percorre todos os elementos encontrados.
+* `style.opacity = "1"` altera a opacidade dos elementos para que eles fiquem visíveis.
+* A função é executada quando o script é carregado nas páginas que utilizam `script.js`.
+* Na versão atual, o script não utiliza `IntersectionObserver`; a alteração acontece diretamente após a seleção dos elementos.
 
 ---
 
 # `style.css` — Destaques de estilo da Home
 
-## 5. Reset e tipografia
+## 6. Reset e tipografia
 
 ```css
 * {
@@ -231,110 +244,438 @@ body {
 
 **Explicação:**
 
-* O reset remove margens e espaçamentos padrão do navegador.
-* `scroll-behavior: smooth` faz os links internos (como `href="#produtos"`) rolarem suavemente até a seção, em vez de "pular" direto.
-* A fonte usa uma pilha de fontes do sistema (system font stack) — mais "natural" e legível do que a fonte padrão do navegador, sem precisar carregar uma fonte externa.
+* O reset remove margens e espaçamentos padrão.
+* `scroll-behavior: smooth` deixa a rolagem dos links internos suave.
+* O `body` utiliza uma sequência de fontes do sistema.
 
-## 6. Sistema de fade-in (scroll-reveal)
+---
+
+## 7. Sistema de aparição
 
 ```css
 .fade-item {
     opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.fade-item.visivel {
-    opacity: 1;
-    transform: translateY(0);
+    transition: opacity 0.6s ease;
 }
 ```
 
 **Explicação:**
 
-* Por padrão, todo `.fade-item` começa invisível (`opacity: 0`) e levemente deslocado para baixo (`translateY(16px)`).
-* Quando o `script.js` adiciona a classe `visivel` (ao detectar que o elemento entrou na tela), o CSS anima a opacidade para 1 e a posição de volta ao lugar original, em 0.6s.
-* Os `transition-delay` diferentes em elementos do hero e nos `.passo` (vistos nas seções acima) escalonam essa animação entre vários elementos, criando o efeito de entrada "em cascata".
+* Os elementos `.fade-item` começam com `opacity: 0`.
+* O `transition` cria uma transição suave de opacidade.
+* O `script.js` altera a opacidade para `1`, fazendo os elementos aparecerem.
 
-## 7. Banner (Hero)
+---
 
-```css
-.hero {
-    position: relative;
-    overflow: hidden;
-    min-height: 85vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #ffffff;
-}
+## 8. Cabeçalho
 
-.hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("imagem-fundo.jpg");
-    background-size: cover;
-    background-position: center;
-    z-index: 0;
-}
+O `.header-site` utiliza Flexbox para organizar o logo, a navegação e o botão de entrada.
 
-.hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        to bottom,
-        rgba(15, 42, 74, 0.55),
-        rgba(15, 42, 74, 0.65)
-    );
-    z-index: 1;
-}
+Principais funcionalidades:
 
-.hero-conteudo {
-    position: relative;
-    z-index: 2;
-}
-```
+* Logo direciona para `index.html`.
+* Link "Produtos" direciona para `produtos.html`.
+* Botão "ENTRAR" direciona para `login.html`.
+* O layout se adapta para telas menores.
 
-**Explicação:**
+---
 
-* O banner é montado em três camadas, todas empilhadas dentro do mesmo `.hero` com `position: relative`:
-  1. `.hero::before` — a imagem de fundo (uma foto de código em tela desfocada), cobrindo toda a área com `background-size: cover`.
-  2. `.hero::after` — um gradiente escuro por cima da imagem, garantindo contraste suficiente para o texto branco ficar legível.
-  3. `.hero-conteudo` — o texto e o botão, com `z-index: 2` para ficar por cima das duas camadas anteriores.
-* `overflow: hidden` evita que a imagem de fundo "vaze" para fora dos limites da seção.
+## 9. Banner (Hero)
 
-## 8. Responsivo (mobile)
+O `.hero` utiliza:
+
+* `background-image` com `imagem-fundo.jpg`;
+* `linear-gradient` para aplicar uma camada escura sobre a imagem;
+* `background-size: cover` para preencher a área;
+* `background-position: center` para centralizar a imagem;
+* Flexbox no conteúdo do banner;
+* transição de opacidade nos elementos marcados como `.fade-item`.
+
+---
+
+## 10. Seção "Como Funciona"
+
+Os cards da seção `.sobre` são organizados com Flexbox.
+
+Cada `.passo` possui:
+
+* número visual;
+* título;
+* descrição;
+* borda;
+* fundo;
+* sombra;
+* espaçamento interno.
+
+Em telas menores, os elementos podem ocupar linhas diferentes devido ao uso de `flex-wrap`.
+
+---
+
+## 11. Seção de projetos
+
+A Home apresenta um card de exemplo com:
+
+* espaço para imagem;
+* nome do projeto;
+* descrição;
+* lista de tecnologias;
+* botão `VER PROJETO`.
+
+A listagem completa e interativa dos projetos fica na página `produtos.html`.
+
+---
+
+## 12. Responsividade
 
 ```css
 @media (max-width: 768px) {
+
+    .header-site {
+        padding: 1rem;
+    }
+
     .navegacao {
         display: none;
     }
 
     .hero {
-        min-height: 70vh;
+        padding: 3rem 1.5rem;
+    }
+
+    .hero h1 {
+        font-size: 1.6rem;
     }
 
     .card-projeto {
         flex-direction: column;
+    }
+
+    .card-projeto-imagem {
+        flex: 0 0 180px;
     }
 }
 ```
 
 **Explicação:**
 
-* Em telas de até 768px de largura, o menu de navegação é ocultado (`display: none`) — um comportamento comum em sites simples sem um menu "hambúrguer" implementado ainda.
-* O banner reduz sua altura mínima, já que em telas pequenas 85vh ocuparia espaço demais.
-* O card de projeto empilha a imagem sobre o conteúdo, em vez de ficarem lado a lado.
+* Em telas de até 768px, o menu de navegação é ocultado.
+* O banner diminui seus espaçamentos.
+* O título do banner reduz o tamanho da fonte.
+* O card de projeto passa a organizar imagem e conteúdo verticalmente.
+
+---
+
+# Página de Produtos / Projetos (`produtos.html`)
+
+A página `produtos.html` foi adicionada ao projeto para apresentar os projetos desenvolvidos pela comunidade.
+
+```html
+<main>
+
+    <section class="produtos-topo">
+        <h1 class="fade-item">NOSSOS PROJETOS</h1>
+        <p class="fade-item">Conheça os projetos desenvolvidos pela nossa comunidade.</p>
+    </section>
+
+    <section class="filtros-secao">
+        <div id="filtros" class="filtros fade-item"></div>
+        <button class="ordenar-btn fade-item" onclick="ordenarPorNome()">Ordenar por nome (A-Z)</button>
+    </section>
+
+    <section class="grid-secao">
+        <div id="gridProdutos" class="grid-produtos"></div>
+    </section>
+
+</main>
+```
+
+## 13. Topo da página
+
+A seção `.produtos-topo` apresenta:
+
+* o título "NOSSOS PROJETOS";
+* uma descrição da página;
+* identificação visual semelhante à identidade da Home.
+
+---
+
+## 14. Filtros por tecnologia
+
+O elemento:
+
+```html
+<div id="filtros" class="filtros fade-item"></div>
+```
+
+é preenchido dinamicamente pelo `script-produtos.js`.
+
+São criados botões para:
+
+* Todos;
+* HTML;
+* CSS;
+* JavaScript;
+* React;
+* Node.js.
+
+Os filtros são obtidos a partir das tecnologias existentes nos projetos, portanto os botões não precisam ser escritos manualmente no HTML.
+
+---
+
+## 15. Ordenação por nome
+
+O botão:
+
+```html
+<button class="ordenar-btn fade-item" onclick="ordenarPorNome()">
+    Ordenar por nome (A-Z)
+</button>
+```
+
+chama a função `ordenarPorNome()` do `script-produtos.js`.
+
+A função organiza os projetos em ordem alfabética pelo atributo `nome` e atualiza a lista exibida.
+
+---
+
+## 16. Grid de projetos
+
+O elemento:
+
+```html
+<div id="gridProdutos" class="grid-produtos"></div>
+```
+
+funciona como o espaço onde os cards dos projetos são inseridos pelo JavaScript.
+
+Os projetos não são escritos diretamente no HTML. Eles são gerados dinamicamente a partir dos dados do arquivo `script-produtos.js`.
+
+---
+
+# `script-produtos.js` — Funcionalidades da página de projetos
+
+## 17. Dados dos projetos e `JSON.parse`
+
+Os projetos são inicialmente armazenados como um texto em formato JSON:
+
+```js
+const projetosJSON = `[
+    { "nome": "Loja Virtual", "descricao": "E-commerce simples com carrinho de compras.", "tecnologias": ["HTML", "CSS", "JavaScript"], "link": "#" },
+    { "nome": "Dashboard de Vendas", "descricao": "Painel visual para acompanhar métricas de vendas.", "tecnologias": ["JavaScript", "React"], "link": "#" },
+    { "nome": "App de Tarefas", "descricao": "Lista de tarefas com marcação de concluído.", "tecnologias": ["HTML", "CSS", "JavaScript"], "link": "#" },
+    { "nome": "Blog Pessoal", "descricao": "Site de blog com posts e comentários.", "tecnologias": ["HTML", "CSS"], "link": "#" },
+    { "nome": "API de Clima", "descricao": "Consumo de dados climáticos em tempo real.", "tecnologias": ["JavaScript", "Node.js"], "link": "#" }
+]`;
+
+const projetos = JSON.parse(projetosJSON);
+```
+
+**Explicação:**
+
+* `projetosJSON` armazena os dados como texto.
+* `JSON.parse()` converte o texto JSON em uma estrutura de objetos JavaScript.
+* Cada projeto possui `nome`, `descricao`, `tecnologias` e `link`.
+
+---
+
+## 18. Renderização dos projetos
+
+A função `renderizarProjetos(lista)` recebe uma lista de projetos e cria os cards dentro de `#gridProdutos`.
+
+```js
+function renderizarProjetos(lista) {
+    const grid = document.querySelector("#gridProdutos");
+
+    grid.innerHTML = lista.map(function (projeto) {
+        const tags = projeto.tecnologias.map(function (tec) {
+            return "<li>" + tec + "</li>";
+        }).join("");
+
+        return `
+            <article class="card-produto">
+                <div class="card-produto-imagem"></div>
+                <div class="card-produto-conteudo">
+                    <h3>${projeto.nome}</h3>
+                    <p>${projeto.descricao}</p>
+                    <ul class="tecnologias">${tags}</ul>
+                    <a href="${projeto.link}" class="link-projeto">VER PROJETO</a>
+                </div>
+            </article>
+        `;
+    }).join("");
+}
+```
+
+**Explicação:**
+
+* `querySelector("#gridProdutos")` localiza o local onde os cards serão inseridos.
+* `map()` percorre os projetos.
+* Um segundo `map()` percorre as tecnologias de cada projeto.
+* `join("")` transforma os elementos gerados em uma única string HTML.
+* Template strings `` `${...}` `` inserem os dados dos objetos diretamente no HTML.
+* `innerHTML` atualiza o conteúdo da grade de projetos.
+
+---
+
+## 19. Tecnologias únicas
+
+A função `obterTecnologiasUnicas(lista)` utiliza `reduce()`, `filter()`, `includes()` e spread para montar uma lista sem tecnologias repetidas.
+
+```js
+function obterTecnologiasUnicas(lista) {
+    return lista.reduce(function (acumulado, projeto) {
+        const novas = projeto.tecnologias.filter(function (tec) {
+            return !acumulado.includes(tec);
+        });
+        return [...acumulado, ...novas];
+    }, []);
+}
+```
+
+**Explicação:**
+
+* `reduce()` percorre todos os projetos.
+* `filter()` seleciona as tecnologias que ainda não estão no acumulador.
+* `includes()` verifica se uma tecnologia já existe.
+* O operador spread `...` adiciona as novas tecnologias ao array.
+* O resultado é uma lista de tecnologias únicas.
+
+---
+
+## 20. Criação dos botões de filtro
+
+A função `montarFiltros()` cria os botões de tecnologia dinamicamente.
+
+```js
+function montarFiltros() {
+    const container = document.querySelector("#filtros");
+    const tecnologias = obterTecnologiasUnicas(projetos);
+
+    let botoes = `<button class="filtro-btn" onclick="filtrar('todos', this)">Todos</button>`;
+
+    for (let tec of tecnologias) {
+        botoes += `<button class="filtro-btn" onclick="filtrar('${tec}', this)">${tec}</button>`;
+    }
+
+    container.innerHTML = botoes;
+    marcarBotaoAtivo(container.querySelector("button"));
+}
+```
+
+**Explicação:**
+
+* O código localiza o elemento `#filtros`.
+* Obtém as tecnologias únicas.
+* Cria inicialmente o botão `Todos`.
+* O `for...of` cria um botão para cada tecnologia encontrada.
+* `innerHTML` coloca os botões na página.
+* O primeiro botão é marcado como ativo.
+
+---
+
+## 21. Botão de filtro ativo
+
+A função `marcarBotaoAtivo(botaoClicado)` altera diretamente os estilos dos botões.
+
+```js
+function marcarBotaoAtivo(botaoClicado) {
+    const todosBotoes = document.querySelectorAll(".filtro-btn");
+
+    for (let botao of todosBotoes) {
+        botao.style.background = "#f4f8fc";
+        botao.style.color = "#0f2a4a";
+        botao.style.borderColor = "#dce6f0";
+    }
+
+    botaoClicado.style.background = "#2e8bff";
+    botaoClicado.style.color = "#ffffff";
+    botaoClicado.style.borderColor = "#2e8bff";
+}
+```
+
+**Explicação:**
+
+* `querySelectorAll()` seleciona todos os botões de filtro.
+* O `for...of` redefine o estilo de todos os botões.
+* O botão clicado recebe o estilo de botão ativo.
+
+---
+
+## 22. Filtragem dos projetos
+
+A função `filtrar(tecnologia, botao)` mostra somente os projetos que possuem a tecnologia selecionada.
+
+```js
+function filtrar(tecnologia, botao) {
+    marcarBotaoAtivo(botao);
+
+    if (tecnologia === "todos") {
+        renderizarProjetos(projetos);
+    } else {
+        const filtrados = projetos.filter(function (projeto) {
+            return projeto.tecnologias.includes(tecnologia);
+        });
+        renderizarProjetos(filtrados);
+    }
+}
+```
+
+**Explicação:**
+
+* Primeiro, o botão selecionado é marcado como ativo.
+* Se a opção for `todos`, todos os projetos são exibidos.
+* Caso contrário, `filter()` seleciona somente os projetos que possuem a tecnologia.
+* `includes()` verifica se a tecnologia está presente no array de tecnologias do projeto.
+* `renderizarProjetos()` atualiza a grade.
+
+---
+
+## 23. Ordenação dos projetos
+
+A função `ordenarPorNome()` organiza os projetos alfabeticamente.
+
+```js
+function ordenarPorNome() {
+    projetos.sort(function (a, b) {
+        if (a.nome < b.nome) return -1;
+        if (a.nome > b.nome) return 1;
+        return 0;
+    });
+    renderizarProjetos(projetos);
+}
+```
+
+**Explicação:**
+
+* `sort()` reorganiza o array.
+* A comparação é feita usando o atributo `nome`.
+* `-1` coloca o primeiro projeto antes do segundo.
+* `1` coloca o segundo antes do primeiro.
+* `0` mantém a posição relativa.
+* Depois da ordenação, `renderizarProjetos()` atualiza os cards.
+
+---
+
+## 24. Inicialização da página
+
+No final do arquivo:
+
+```js
+montarFiltros();
+renderizarProjetos(projetos);
+```
+
+**Explicação:**
+
+* `montarFiltros()` cria os botões de tecnologia.
+* `renderizarProjetos(projetos)` mostra todos os projetos inicialmente.
+* Assim que `script-produtos.js` é carregado, a página já apresenta os filtros e os cards.
 
 ---
 
 # Página de Login (`login.html`)
 
-## 9. Estrutura HTML (Login)
+## 25. Estrutura HTML
 
 ```html
 <header class="navbar">
@@ -371,86 +712,72 @@ body {
 
 **Explicação:**
 
-* `<header class="navbar">`: cabeçalho simplificado, contendo apenas o logotipo — diferente do header da home, aqui não há navegação nem botões de acesso, já que o usuário já está no fluxo de autenticação.
-* `<main class="container">`: envolve o conteúdo principal e é responsável por centralizar o cartão de login na tela, tanto na horizontal quanto na vertical.
-* `<form class="login-form">`: organiza os campos de entrada.
-* `<label for="...">` + `<input id="...">`: cada rótulo está associado ao seu campo pelo par `for`/`id`, o que também permite clicar no texto do rótulo para focar o campo.
-* `type="email"` e `type="password"`: tipos de input nativos do HTML, que já trazem validação básica do navegador (formato de e-mail, ocultação de caracteres na senha).
-* `required`: torna os dois campos obrigatórios antes do envio do formulário.
-* `<button type="submit">`: envia o formulário.
-* O link "Cadastre-se" no rodapé agora aponta para `registrar.html` (antes era um link vazio `#`), conectando de fato as duas páginas.
+* A página possui uma navbar simplificada com o logo.
+* O formulário possui dois campos: e-mail e senha.
+* `type="email"` faz o navegador reconhecer o campo como e-mail.
+* `type="password"` oculta os caracteres digitados.
+* `required` torna os campos obrigatórios.
+* O botão `ENTRAR` envia o formulário.
+* O link `Cadastre-se` direciona para `registrar.html`.
+
+> **Observação:** no código atual não existe JavaScript ou backend responsável por autenticar o usuário. Portanto, o formulário de login possui a estrutura visual e a validação HTML dos campos, mas não realiza uma autenticação real.
 
 ---
 
 # Página de Cadastro (`registrar.html`)
 
-## 10. Estrutura HTML (Cadastro)
+## 26. Estrutura HTML
+
+O cadastro possui quatro campos:
 
 ```html
-<header class="navbar">
-    <div class="logo">
-        <span class="logo-icon">M</span>
-        <span class="logo-text">Mackenzie</span>
-    </div>
-</header>
+<div class="form-group">
+    <label for="username">NOME DE USUÁRIO</label>
+    <input type="text" id="username" placeholder="Digite seu nome completo" required>
+</div>
 
-<main class="container">
-    <div class="register-card">
-        <h1>CRIE SUA CONTA</h1>
+<div class="form-group">
+    <label for="email">E-MAIL</label>
+    <input type="email" id="email" placeholder="seuemail@exemplo.com" required>
+</div>
 
-        <form class="register-form">
-            <div class="form-group">
-                <label for="username">NOME DE USUÁRIO</label>
-                <input type="text" id="username" placeholder="Digite seu nome completo" required>
-            </div>
+<div class="form-group">
+    <label for="password">SENHA</label>
+    <input type="password" id="password" placeholder="Digite sua senha" required>
+</div>
 
-            <div class="form-group">
-                <label for="email">E-MAIL</label>
-                <input type="email" id="email" placeholder="seuemail@exemplo.com" required>
-            </div>
-
-            <div class="form-group">
-                <label for="password">SENHA</label>
-                <input type="password" id="password" placeholder="Digite sua senha" required>
-            </div>
-
-            <div class="form-group">
-                <label for="confirm-password">CONFIRMAR SENHA</label>
-                <input type="password" id="confirm-password" placeholder="Confirme sua senha" required>
-            </div>
-
-            <button type="submit" class="btn-submit">CADASTRAR</button>
-        </form>
-
-        <div class="form-footer">
-            <p>Já possui uma conta? <a href="login.html">Faça Login</a>.</p>
-        </div>
-    </div>
-</main>
+<div class="form-group">
+    <label for="confirm-password">CONFIRMAR SENHA</label>
+    <input type="password" id="confirm-password" placeholder="Confirme sua senha" required>
+</div>
 ```
 
 **Explicação:**
 
-* A estrutura é praticamente a mesma do login (`navbar` + `container` + card + form + footer), reaproveitando o mesmo padrão visual para manter consistência entre as páginas.
-* A diferença está nos campos: o cadastro adiciona `username` (nome de usuário) e `confirm-password` (confirmação de senha), além de `email` e `password`.
-* Note que `registrar.html` e `login.html` reutilizam os mesmos `id`s (`email`, `password`) — isso não é um problema, pois cada um vive em um documento HTML diferente (páginas separadas), então não há conflito de IDs duplicados na mesma página.
-* O link do rodapé ("Faça Login") aponta de volta para `login.html`, fechando o ciclo entre as duas páginas.
-* Assim como no login, o botão principal muda de rótulo (`CADASTRAR`) para refletir a ação da página, mas mantém a mesma classe `.btn-submit` — ou seja, o mesmo estilo visual.
+* `username`: recebe o nome do usuário.
+* `email`: recebe o e-mail.
+* `password`: recebe a senha.
+* `confirm-password`: recebe a confirmação da senha.
+* `required`: torna todos os campos obrigatórios.
+* O botão `CADASTRAR` envia o formulário.
+* O link `Faça Login` direciona para `login.html`.
+
+> **Observação:** no código atual não existe JavaScript ou backend responsável por salvar a conta ou verificar se as duas senhas são iguais. O cadastro possui a estrutura visual e a validação HTML dos campos, mas não realiza o cadastro em um banco de dados.
 
 ---
 
 # CSS — `stylelogin.css` e `styleregistrar.css`
 
-Os dois arquivos são quase idênticos, com pequenas diferenças de nome de classe (`.login-card`/`.login-form` de um lado, `.register-card`/`.register-form` do outro) e de `gap` entre os campos do formulário. Por isso os trechos abaixo valem para os dois, salvo indicação contrária.
+Os arquivos de estilo do Login e Cadastro possuem uma estrutura semelhante.
 
-## 11. Configurações gerais
+## 27. Configurações gerais
 
 ```css
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
@@ -464,54 +791,24 @@ body {
 
 **Explicação:**
 
-* O reset remove espaçamentos padrão e aplica `box-sizing: border-box`, para que padding e borda sejam contados dentro da largura/altura definidas de cada elemento (evitando que o elemento "estoure" do tamanho esperado).
-* A fonte usada aqui é `'Times New Roman'` — diferente da fonte do sistema usada na home (`style.css`), o que é uma escolha estética independente para as páginas de autenticação.
-* `body` usa `display: flex; flex-direction: column; min-height: 100vh`, garantindo que o `main.container` ocupe todo o espaço vertical disponível mesmo em telas grandes, empurrando o rodapé (se houver) para baixo.
+* Remove margens e espaçamentos padrão.
+* `box-sizing: border-box` facilita o controle das dimensões dos elementos.
+* Define uma fonte baseada nas fontes disponíveis no sistema.
+* `body` utiliza Flexbox em coluna e ocupa pelo menos toda a altura da tela.
 
-## 12. Barra superior (`navbar`) e logo
+---
 
-```css
-.navbar {
-    background-color: #0d233a;
-    color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 40px;
-}
+## 28. Barra superior e logo
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
+A `.navbar` centraliza o logo e utiliza fundo azul escuro.
 
-.logo-icon {
-    background-color: #2b7fff;
-    color: #ffffff;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 18px;
-}
+O `.logo-icon` cria um círculo com a letra `M`.
 
-.logo-text {
-    font-size: 24px;
-    font-weight: bold;
-    letter-spacing: 0.5px;
-}
-```
+O `.logo-text` apresenta o nome "Mackenzie".
 
-**Explicação:**
+---
 
-* `.navbar`: fundo azul escuro (`#0d233a`), com o conteúdo centralizado — diferente do header da home, que usa `justify-content: space-between` para distribuir logo, menu e botão nas extremidades.
-* `.logo-icon`: um círculo (`border-radius: 50%`) com a letra "M", centralizado tanto na horizontal quanto na vertical via Flexbox — o mesmo princípio visual do `.logo-icone` da home, mas com nome de classe e cor levemente diferentes.
-
-## 13. Centralização do formulário
+## 29. Centralização do formulário
 
 ```css
 .container {
@@ -525,29 +822,33 @@ body {
 
 **Explicação:**
 
-* Usa **Flexbox** para centralizar o cartão de login/cadastro horizontal e verticalmente dentro do espaço disponível.
-* `flex: 1` faz esse container crescer para preencher o espaço restante da tela (já que `body` é `flex-direction: column`), o que é o que garante a centralização vertical mesmo em telas de alturas diferentes.
+* `display: flex` ativa o Flexbox.
+* `justify-content: center` centraliza horizontalmente.
+* `align-items: center` centraliza verticalmente.
+* `flex: 1` permite que o container ocupe o espaço disponível.
 
-## 14. O cartão (`.login-card` / `.register-card`)
+---
 
-```css
-.login-card,
-.register-card {
-    width: 100%;
-    max-width: 550px;
-    background-color: #ffffff;
-    padding: 45px 40px;
-    border: 1px solid #0d233a;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-}
-```
+## 30. Cartão de Login e Cadastro
 
-**Explicação:**
+Os cartões possuem:
 
-* Define o tamanho máximo (550px), fundo branco, espaçamento interno, borda fina e uma sombra suave — dando ao formulário a aparência de um "cartão" flutuando sobre o fundo cinza claro da página.
-* `width: 100%` com `max-width: 550px` garante que o cartão encolha em telas pequenas, mas nunca ultrapasse 550px em telas grandes.
+* largura de até 550px;
+* fundo branco;
+* espaçamento interno;
+* borda;
+* sombra;
+* alinhamento centralizado.
 
-## 15. Campos e botão
+No Login, a classe principal é `.login-card`.
+
+No Cadastro, a classe principal é `.register-card`.
+
+---
+
+## 31. Campos e botão
+
+Os grupos de formulário utilizam Flexbox em coluna:
 
 ```css
 .form-group {
@@ -555,74 +856,110 @@ body {
     flex-direction: column;
     gap: 8px;
 }
-
-.form-group input {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1px solid #000000;
-    font-size: 15px;
-    outline: none;
-    background-color: #fcfcfc;
-}
-
-.form-group input:focus {
-    border-color: #2b7fff;
-    background-color: #ffffff;
-}
-
-.btn-submit {
-    background-color: #0d233a;
-    color: #ffffff;
-    border: none;
-    padding: 15px;
-    font-size: 17px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.2s;
-}
-
-.btn-submit:hover {
-    background-color: #1e3a5f;
-}
 ```
 
-**Explicação:**
+Os campos possuem borda, espaçamento interno e fundo claro.
 
-* `.form-group`: organiza o rótulo e o campo verticalmente, com um pequeno espaçamento entre eles.
-* `.form-group input:focus`: ao clicar em um campo, a borda muda para azul (`#2b7fff`) e o fundo fica branco puro — um retorno visual claro de qual campo está ativo.
-* `.btn-submit`: fundo azul escuro combinando com a navbar, texto branco em caixa alta e `cursor: pointer`, indicando que é clicável.
-* `.btn-submit:hover`: escurece levemente o fundo do botão ao passar o mouse, com uma transição suave de 0.2s.
-
-## 16. Rodapé do formulário
+Quando o campo recebe foco:
 
 ```css
-.form-footer {
-    margin-top: 25px;
-    font-size: 15px;
-    text-align: center;
-}
-
-.form-footer a {
-    color: #0000ff;
-    text-decoration: underline;
-}
-
-.form-footer a:hover {
-    color: #0d233a;
+.form-group input:focus {
+    border-color: #2e8bff;
+    background-color: #ffffff;
 }
 ```
 
-**Explicação:**
+A borda muda para azul para indicar qual campo está selecionado.
 
-* Centraliza o texto de rodapé (ex: "Ainda não possui uma conta?") e estiliza o link como um link tradicional — azul e sublinhado — mudando de cor ao passar o mouse.
-* É esse link que conecta as duas páginas entre si: de `login.html` para `registrar.html` e vice-versa.
+O botão `.btn-submit` possui efeito `hover`, alterando a cor de fundo quando o mouse passa sobre ele.
 
 ---
 
-## Conclusão
+# `styleprodutos.css` — Estilos da página de projetos
 
-O projeto utiliza **HTML semântico** para estruturar header, banner, seções explicativas, exemplo de projeto e os formulários de login/cadastro; **CSS** com Flexbox, pseudo-elementos e media queries para o layout, o banner em camadas, os cartões de formulário e a responsividade; e um pequeno trecho de **JavaScript** com `IntersectionObserver` para a animação de entrada dos elementos na home conforme a página é rolada.
+## 32. Topo da página
 
-As páginas de Login e Cadastro reaproveitam a mesma arquitetura visual entre si (navbar simples, container centralizado, cartão de formulário), o que reforça a identidade do projeto e reduz a quantidade de CSS realmente novo entre uma página e outra.
+`.produtos-topo` cria uma área azul escura para o título e a descrição.
+
+## 33. Filtros
+
+`.filtros` organiza os botões de tecnologia usando Flexbox e permite que eles quebrem linha quando necessário.
+
+`.filtro-btn` cria os botões arredondados usados para selecionar uma tecnologia.
+
+`.ordenar-btn` estiliza o botão responsável pela ordenação alfabética.
+
+## 34. Grid de projetos
+
+```css
+.grid-produtos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+```
+
+**Explicação:**
+
+* `display: grid` cria uma grade.
+* `auto-fit` permite adaptar a quantidade de colunas ao espaço disponível.
+* `minmax(260px, 1fr)` define o tamanho mínimo e máximo das colunas.
+* `gap` cria espaço entre os cards.
+
+---
+
+## 35. Card de projeto
+
+Cada `.card-produto` possui:
+
+* área para imagem;
+* nome;
+* descrição;
+* tecnologias;
+* link para visualizar o projeto.
+
+Os cards são gerados automaticamente pelo `script-produtos.js`.
+
+---
+
+## 36. Responsividade
+
+A página de projetos também possui uma regra para telas menores:
+
+```css
+@media (max-width: 768px) {
+    .header-site .navegacao {
+        display: none;
+    }
+}
+```
+
+Em telas de até 768px, o menu de navegação é ocultado.
+
+---
+
+# Conclusão
+
+O projeto utiliza **HTML** para estruturar as páginas, **CSS** para estilização e responsividade e **JavaScript** para adicionar funcionalidades à interface.
+
+As principais funcionalidades atualmente presentes são:
+
+* navegação entre Home, Produtos, Login e Cadastro;
+* apresentação do Projeto Extensionista;
+* seção explicativa "Como Funciona";
+* exemplo de projeto na Home;
+* página de projetos da comunidade;
+* criação dinâmica dos cards de projetos;
+* conversão de dados JSON para objetos com `JSON.parse()`;
+* geração dinâmica dos filtros por tecnologia;
+* filtro de projetos por tecnologia;
+* identificação de tecnologias únicas com `reduce()`, `filter()`, `includes()` e spread;
+* ordenação dos projetos por nome com `sort()`;
+* atualização dos cards através do DOM e `innerHTML`;
+* responsividade para telas menores;
+* transição de opacidade dos elementos marcados com `.fade-item`;
+* formulários estruturados de Login e Cadastro com validação HTML básica.
+
+Atualmente, Login e Cadastro ainda não possuem integração com banco de dados ou sistema de autenticação. Os links dos projetos também estão definidos como `#`, funcionando como elementos de demonstração da interface.
