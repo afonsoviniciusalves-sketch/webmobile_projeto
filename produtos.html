@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="styleprodutos.css">
-    <title>Produtos - Projeto Extensionista | Mackenzie</title>
+    <title>Produtos - Projeto Extensionista | myIT</title>
 </head>
 <body>
 
     <header class="header-site">
         <a href="index.html">
             <span class="logo-icone">M</span>
-            <span class="nome-logo">Mackenzie</span>
+            <span class="nome-logo">myIT</span>
         </a>
 
         <nav class="navegacao">
@@ -30,16 +30,22 @@
 
         <section class="produtos-topo">
             <h1 class="fade-item">NOSSOS PROJETOS</h1>
-            <p class="fade-item">Conheça os projetos desenvolvidos pela nossa comunidade.</p>
+            <p class="fade-item">Conheça os projetos desenvolvidos por um único profissional, responsável por todas as soluções apresentadas no site.</p>
         </section>
 
-        <section class="filtros-secao">
-            <div id="filtros" class="filtros fade-item"></div>
-            <button class="ordenar-btn fade-item" onclick="ordenarPorNome()">Ordenar por nome (A-Z)</button>
-        </section>
+        <div id="listaProjetos">
+            <section class="filtros-secao">
+                <div id="filtros" class="filtros fade-item"></div>
+                <button class="ordenar-btn fade-item" onclick="ordenarPorNome()">Ordenar por nome (A-Z)</button>
+            </section>
 
-        <section class="grid-secao">
-            <div id="gridProdutos" class="grid-produtos"></div>
+            <section class="grid-secao">
+                <div id="gridProdutos" class="grid-produtos"></div>
+            </section>
+        </div>
+
+        <section id="detalheProjeto" class="detalhe-secao">
+            <article id="detalheCard" class="detalhe-card"></article>
         </section>
 
     </main>

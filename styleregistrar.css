@@ -26,6 +26,8 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    text-decoration: none;
+    color: #ffffff;
 }
 
 .logo-icon {
@@ -103,6 +105,13 @@ body {
 .form-group input:focus {
     border-color: #2e8bff;
     background-color: #ffffff;
+}
+
+.erro-msg {
+    display: none;
+    color: #d64545;
+    font-size: 0.8rem;
+    margin-top: -0.5rem;
 }
 
 .btn-submit {

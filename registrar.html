@@ -9,17 +9,17 @@
 <body>
 
     <header class="navbar">
-        <div class="logo">
+        <a href="index.html" class="logo">
             <span class="logo-icon">M</span>
-            <span class="logo-text">Mackenzie</span>
-        </div>
+            <span class="logo-text">myIT</span>
+        </a>
     </header>
 
     <main class="container">
         <div class="register-card">
             <h1>CRIE SUA CONTA</h1>
 
-            <form class="register-form">
+            <form class="register-form" action="produtos.html" onsubmit="return validarCadastro()">
                 <div class="form-group">
                     <label for="username">NOME DE USUÁRIO</label>
                     <input type="text" id="username" placeholder="Digite seu nome completo" required>
@@ -40,6 +40,8 @@
                     <input type="password" id="confirm-password" placeholder="Confirme sua senha" required>
                 </div>
 
+                <p id="erroSenha" class="erro-msg"></p>
+
                 <button type="submit" class="btn-submit">CADASTRAR</button>
             </form>
 
@@ -48,6 +50,8 @@
             </div>
         </div>
     </main>
+
+    <script src="validacao.js"></script>
 
 </body>
 </html>
