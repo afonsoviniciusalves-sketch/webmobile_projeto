@@ -2,11 +2,12 @@
 
 ## Sobre o projeto
 
-O projeto consiste no desenvolvimento de um site web para apresentar os projetos desenvolvidos por um único profissional.
+Este projeto consiste no desenvolvimento de um site para apresentação de projetos desenvolvidos por um profissional da área de tecnologia. A plataforma reúne, em um único ambiente digital, informações sobre os trabalhos realizados, permitindo que visitantes conheçam as soluções desenvolvidas e, havendo interesse, entrem em contato diretamente com o responsável.
 
-A proposta inicial do projeto era criar uma plataforma que conectasse pessoas que precisam de um site a diferentes desenvolvedores. Essa ideia foi alterada. Na versão atual, o site representa o trabalho de **um único desenvolvedor**, responsável pelos projetos apresentados.
+A navegação começa pela página inicial, onde o projeto é apresentado e seu funcionamento é explicado em etapas sequenciais, guiando o visitante desde o primeiro acesso até o contato com o desenvolvedor. Para acessar a área de projetos, o usuário passa por um sistema de autenticação com páginas de login e cadastro, que inclui validação dos dados informados, como a verificação de um tamanho mínimo de senha e a conferência entre senha e confirmação de senha antes de liberar o acesso. Já dentro da área de projetos, os trabalhos são exibidos em formato de cartões, com recursos de filtragem por tecnologia utilizada e ordenação alfabética, o que permite ao visitante localizar com mais facilidade as soluções de seu interesse. A partir da lista, é possível abrir a visualização detalhada de cada projeto, que traz informações complementares como descrição estendida, tecnologias empregadas, prazo de desenvolvimento e valor estimado.
 
-Dessa forma, o visitante entra no site, conhece a proposta, acessa a área de projetos e pode visualizar informações sobre cada solução. Caso tenha interesse em algum projeto, o visitante pode consultar as informações apresentadas e entrar em contato diretamente com o desenvolvedor responsável.
+Além de seu funcionamento como produto, este projeto se caracteriza como uma atividade extensionista por representar a aplicação prática de conhecimentos técnicos desenvolvidos ao longo da disciplina de Web Mobile em uma ferramenta real e acessível a qualquer pessoa externa à universidade. Diferente de um exercício acadêmico que se encerra na entrega e correção, o site permanece disponível e utilizável depois disso, cumprindo uma função concreta para quem o acessa. Ele aproxima, de forma direta, quem possui capacidade técnica para desenvolver soluções web de quem precisa delas, reduzindo a dificuldade natural de encontrar e avaliar um desenvolvedor de confiança ao reunir, em um só lugar, exemplos de trabalho, tecnologias utilizadas, prazos e valores. Dessa forma, o projeto cumpre o papel central da extensão universitária, que é o de estabelecer uma ponte entre o conhecimento produzido dentro da universidade e uma necessidade real da comunidade fora dela, colocando a formação acadêmica do desenvolvedor a serviço de um público concreto.
+
 
 O projeto utiliza **HTML, CSS e JavaScript**. O JavaScript é utilizado para:
 
