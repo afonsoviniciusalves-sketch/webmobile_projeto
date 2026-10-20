@@ -1,3 +1,4 @@
+
 # SITE WEB - Projeto Extensionista (Parte 2: Borboleta)
  
 ## Sobre o projeto
@@ -35,16 +36,20 @@ O wireframe da Parte 2 foi feito em tons neutros (cinza e branco), com foco apen
 * **Etiqueta branca e tracejada:** rota dinâmica (com parâmetro).
 ### Home — rota simples `/`
  
-![Wireframe da Home](./wireframe/home.png)
- 
+<img width="1280" height="1240" alt="Home@1x" src="https://github.com/user-attachments/assets/58af446b-6ac4-4282-a701-e383f2de095e" />
+
 ### Produtos — rota simples `/produtos`
  
-![Wireframe da página de Produtos](./wireframe/produtos.png)
- 
+<img width="1280" height="760" alt="Produtos@1x" src="https://github.com/user-attachments/assets/0929a121-5376-4749-95e9-1ca600fdd740" /> 
+
 ### Detalhe do projeto — rota dinâmica `/produtos/[id]`
+
+<img width="1280" height="760" alt="Detalhe do projeto@1x" src="https://github.com/user-attachments/assets/ea4332bc-736a-4e08-9803-43ef6acb3d8a" />
  
-![Wireframe do detalhe do projeto](./wireframe/detalhe.png)
- 
-### Login — rota simples `/login`
- 
-![Wireframe do Login](./wireframe/login.png)
+### Login e Cadastro — rota simples `/login`
+
+ <img width="1280" height="720" alt="Login@1x" src="https://github.com/user-attachments/assets/d0a73c48-2add-4400-82e1-9f1e9c1a47ce" />
+
+### `/Cadastro`
+
+<img width="1280" height="800" alt="Cadastro@1x" src="https://github.com/user-attachments/assets/bd0e5c0c-72d7-4dd6-8bb3-5478c102e715" />
