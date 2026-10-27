@@ -1,0 +1,672 @@
+/* =========================================================
+   GLOBALS.CSS
+   Junção de: style.css, stylelogin.css, styleregistrar.css
+   e styleprodutos.css
+   ========================================================= */
+
+/* ===== RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ===== TIPOGRAFIA ===== */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* botões e inputs não herdam a fonte por padrão */
+button,
+input {
+    font-family: inherit;
+}
+
+/* ===== FADE-IN (aparece ao carregar a página) ===== */
+/* Usa "transition", visto no material de CSS3 (Aula 03) */
+.fade-item {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+
+/* =========================================================
+   SITE PRINCIPAL (antigo style.css)
+   ========================================================= */
+
+/* ===== HEADER ===== */
+.header-site {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background: #0f2a4a;
+    color: #ffffff;
+}
+
+.header-site a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.logo-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: #2e8bff;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+.nome-logo {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.navegacao ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.navegacao a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 0.95rem;
+}
+
+.navegacao a:hover {
+    color: #a9c9f0;
+}
+
+.acoes-topo {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-entrar {
+    text-decoration: none;
+    color: #ffffff;
+    background: #2e8bff;
+    border: 1px solid #2e8bff;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.btn-entrar:hover {
+    background: #ffffff;
+    color: #0f2a4a;
+}
+
+/* ===== BANNER (imagem + gradiente, tudo no "background") ===== */
+.hero {
+    background: linear-gradient(
+                    to bottom,
+                    rgba(15, 42, 74, 0.6),
+                    rgba(15, 42, 74, 0.7)
+                ),
+                url("/imagem-fundo.jpg");
+    background-size: cover;
+    background-position: center;
+    padding: 6rem 2rem;
+    text-align: center;
+    color: #ffffff;
+}
+
+.hero-conteudo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero h1 {
+    font-size: 2.2rem;
+    max-width: 700px;
+    margin: 0 auto 1rem;
+}
+
+.hero a {
+    display: inline-block;
+    text-decoration: none;
+    background: #2e8bff;
+    color: #ffffff;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.hero a:hover {
+    background: #ffffff;
+    color: #0f2a4a;
+}
+
+.descubra-mais {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* ===== SOBRE (cards) ===== */
+.sobre {
+    padding: 4rem 2rem;
+    text-align: center;
+    background: #ffffff;
+}
+
+.sobre h2 {
+    color: #0f2a4a;
+    font-size: 1.8rem;
+    margin-bottom: 2.5rem;
+}
+
+.passos {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.passo {
+    flex: 1 1 200px;
+    max-width: 220px;
+    background: #f4f8fc;
+    border: 1px solid #dce6f0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.passo-numero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 1rem;
+    background: #2e8bff;
+    color: #ffffff;
+    border-radius: 50%;
+    font-weight: 700;
+}
+
+.passo h3 {
+    color: #0f2a4a;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.passo p {
+    color: #555;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* ===== PROJETOS ===== */
+.projetos {
+    padding: 4rem 2rem;
+    background: #f4f8fc;
+}
+
+.projetos > header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.projetos h2 {
+    color: #0f2a4a;
+    font-size: 1.8rem;
+}
+
+.card-projeto {
+    display: flex;
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #dce6f0;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: left;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.card-projeto-conteudo {
+    padding: 1.5rem;
+}
+
+.card-projeto-conteudo h3 {
+    color: #0f2a4a;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.card-projeto-conteudo p {
+    color: #555;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.tecnologias {
+    display: flex;
+    list-style: none;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.tecnologias li {
+    background: #f4f8fc;
+    color: #0f2a4a;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+}
+
+.link-projeto {
+    display: inline-block;
+    text-decoration: none;
+    background: #2e8bff;
+    color: #ffffff;
+    padding: 0.6rem 1.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.link-projeto:hover {
+    background: #0f2a4a;
+}
+
+/* ===== RODAPÉ ===== */
+.rodape-site {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    background: #0f2a4a;
+    color: #a9c9f0;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+
+/* =========================================================
+   PÁGINAS DE LOGIN E REGISTRO (antigos stylelogin.css e
+   styleregistrar.css)
+
+   Tudo está dentro de ".pagina-auth" para não vazar para o
+   resto do site (o body dessas páginas era flex/coluna e o
+   fundo era diferente). Adicione a classe "pagina-auth" no
+   elemento que envolve a página de login/registro.
+   ========================================================= */
+.pagina-auth {
+    background-color: #f8f9fa;
+    color: #000000;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.pagina-auth .navbar {
+    background-color: #0f2a4a;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 40px;
+}
+
+.pagina-auth .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.pagina-auth .logo-icon {
+    background-color: #2e8bff;
+    color: #ffffff;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.pagina-auth .logo-text {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.pagina-auth .container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* cards (idênticos em login e registro) */
+.pagina-auth .login-card,
+.pagina-auth .register-card {
+    width: 100%;
+    max-width: 550px;
+    background-color: #ffffff;
+    padding: 45px 40px;
+    border: 1px solid #0f2a4a;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.pagina-auth .login-card h1,
+.pagina-auth .register-card h1 {
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* formulários (única diferença: o espaçamento entre campos) */
+.pagina-auth .login-form,
+.pagina-auth .register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pagina-auth .login-form {
+    gap: 24px;
+}
+
+.pagina-auth .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pagina-auth .form-group label {
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.pagina-auth .form-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #000000;
+    font-size: 15px;
+    outline: none;
+    background-color: #fcfcfc;
+}
+
+.pagina-auth .form-group input:focus {
+    border-color: #2e8bff;
+    background-color: #ffffff;
+}
+
+.pagina-auth .erro-msg {
+    display: none;
+    color: #d64545;
+    font-size: 0.8rem;
+    margin-top: -0.5rem;
+}
+
+.pagina-auth .btn-submit {
+    background-color: #0f2a4a;
+    color: #ffffff;
+    border: none;
+    padding: 15px;
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.pagina-auth .btn-submit:hover {
+    background-color: #2e8bff;
+}
+
+.pagina-auth .form-footer {
+    margin-top: 25px;
+    font-size: 15px;
+    text-align: center;
+}
+
+.pagina-auth .form-footer a {
+    color: #2e8bff;
+    text-decoration: underline;
+}
+
+.pagina-auth .form-footer a:hover {
+    color: #0f2a4a;
+}
+
+
+/* =========================================================
+   PÁGINA DE PRODUTOS (antigo styleprodutos.css)
+   ========================================================= */
+
+/* ===== TOPO DA PÁGINA DE PRODUTOS ===== */
+.produtos-topo {
+    background: #0f2a4a;
+    color: #ffffff;
+    text-align: center;
+    padding: 3.5rem 2rem;
+}
+
+.produtos-topo h1 {
+    font-size: 1.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.produtos-topo p {
+    color: #a9c9f0;
+    font-size: 0.95rem;
+}
+
+/* ===== FILTROS ===== */
+.filtros-secao {
+    background: #ffffff;
+    padding: 2rem;
+    text-align: center;
+}
+
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    max-width: 900px;
+    margin: 0 auto 1.5rem;
+}
+
+.filtro-btn {
+    background: #f4f8fc;
+    border: 1px solid #dce6f0;
+    color: #0f2a4a;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.ordenar-btn {
+    background: #ffffff;
+    border: 1px solid #0f2a4a;
+    color: #0f2a4a;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* ===== GRID DE PRODUTOS ===== */
+.grid-secao {
+    background: #f4f8fc;
+    padding: 1rem 2rem 4rem;
+}
+
+.grid-produtos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.card-produto {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border: 1px solid #dce6f0;
+    border-radius: 8px;
+    padding: 1.25rem;
+    text-align: left;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.card-produto h3 {
+    color: #0f2a4a;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.card-produto p {
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+/* O "VER PROJETO" agora é um botão: tira a borda padrão do navegador */
+button.link-projeto {
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    margin-top: auto;
+    align-self: flex-start;
+}
+
+/* ===== DETALHES DO PROJETO (o "post") ===== */
+/* Fica escondido até o JavaScript mostrar */
+.detalhe-secao {
+    display: none;
+    background: #f4f8fc;
+    padding: 3rem 2rem 4rem;
+}
+
+.detalhe-card {
+    max-width: 700px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #dce6f0;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: left;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.detalhe-card h2 {
+    color: #0f2a4a;
+    font-size: 1.6rem;
+    margin-bottom: 0.3rem;
+}
+
+.detalhe-card .detalhe-autor {
+    color: #2e8bff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.detalhe-card p {
+    color: #555;
+    line-height: 1.6;
+}
+
+.detalhe-info {
+    display: flex;
+    gap: 2rem;
+    margin: 1.5rem 0;
+    padding: 1rem 0;
+    border-top: 1px solid #dce6f0;
+    border-bottom: 1px solid #dce6f0;
+}
+
+.detalhe-info div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.detalhe-info span {
+    color: #555;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.detalhe-info strong {
+    color: #0f2a4a;
+    font-size: 1.1rem;
+}
+
+
+/* =========================================================
+   RESPONSIVO (MOBILE) – unificado
+   ========================================================= */
+@media (max-width: 768px) {
+
+    .header-site {
+        padding: 1rem;
+    }
+
+    .navegacao,
+    .header-site .navegacao {
+        display: none;
+    }
+
+    .hero {
+        padding: 3rem 1.5rem;
+    }
+
+    .hero h1 {
+        font-size: 1.6rem;
+    }
+
+    .card-projeto {
+        flex-direction: column;
+    }
+}
