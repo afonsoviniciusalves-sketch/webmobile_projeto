@@ -44,23 +44,27 @@ O wireframe da Parte 2 foi feito em tons neutros (cinza e branco), com foco apen
 
 ### Home — rota simples `/`
 
-![Wireframe da Home](./wireframe/home.png)
+<img width="1280" height="1240" alt="Home@1x" src="https://github.com/user-attachments/assets/b6c8886c-f155-48bd-aa9c-026dfe9ed932" />
 
 ### Produtos — rota simples `/produtos`
 
-![Wireframe da página de Produtos](./wireframe/produtos.png)
+<img width="1280" height="760" alt="Produtos@1x" src="https://github.com/user-attachments/assets/2f878c75-d2d7-445c-b747-908c998e7164" />
+
 
 ### Detalhe do projeto — rota dinâmica `/produtos/[id]`
 
-![Wireframe do detalhe do projeto](./wireframe/detalhe.png)
+<img width="1280" height="760" alt="Detalhe do projeto@1x" src="https://github.com/user-attachments/assets/5cad8262-09fd-4586-b986-31cf1b9864e4" />
+
 
 ### Login — rota simples `/login`
 
-![Wireframe do Login](./wireframe/login.png)
+<img width="1280" height="720" alt="Login@1x" src="https://github.com/user-attachments/assets/42873507-1f3b-4c46-b784-b6b90136ad77" />
+
 
 ### Cadastro — rota simples `/registrar`
 
-![Wireframe do Cadastro](./wireframe/registrar.png)
+<img width="1280" height="800" alt="Cadastro@1x" src="https://github.com/user-attachments/assets/b9417db4-5b4b-41cf-87e9-ea895c759a0d" />
+
 
 ### Mapa de rotas
 
