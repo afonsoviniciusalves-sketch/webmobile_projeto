@@ -1,0 +1,30 @@
+/*
+ * Vinicius Alves - RA 10771489
+ * Pedro Jobe - RA 10743750
+ * Diego Campos - RA 10771507
+ * Nicolas Braga - RA 10777202
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+.fade-item {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}

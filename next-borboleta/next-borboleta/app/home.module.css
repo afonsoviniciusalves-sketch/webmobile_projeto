@@ -1,0 +1,179 @@
+/*
+ * Vinicius Alves - RA 10771489
+ * Pedro Jobe - RA 10743750
+ * Diego Campos - RA 10771507
+ * Nicolas Braga - RA 10777202
+ */
+
+.pagina {
+    background-color: #f4f8fc;
+    min-height: 100vh;
+}
+
+.hero {
+    background: linear-gradient(
+                    to bottom,
+                    rgba(15, 42, 74, 0.6),
+                    rgba(15, 42, 74, 0.7)
+                ),
+                url("/imagem-fundo.jpg");
+    background-size: cover;
+    background-position: center;
+    padding: 6rem 2rem;
+    text-align: center;
+    color: #ffffff;
+}
+
+.heroConteudo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero h1 {
+    font-size: 2.2rem;
+    max-width: 700px;
+    margin: 0 auto 1rem;
+}
+
+.hero a {
+    display: inline-block;
+    text-decoration: none;
+    background: #2e8bff;
+    color: #ffffff;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.hero a:hover {
+    background: #ffffff;
+    color: #0f2a4a;
+}
+
+.descubraMais {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.sobre {
+    padding: 4rem 2rem;
+    text-align: center;
+    background: #ffffff;
+}
+
+.sobre h2 {
+    color: #0f2a4a;
+    font-size: 1.8rem;
+    margin-bottom: 2.5rem;
+}
+
+.passos {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.passo {
+    flex: 1 1 200px;
+    max-width: 220px;
+    background: #f4f8fc;
+    border: 1px solid #dce6f0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.passoNumero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 1rem;
+    background: #2e8bff;
+    color: #ffffff;
+    border-radius: 50%;
+    font-weight: 700;
+}
+
+.passo h3 {
+    color: #0f2a4a;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.passo p {
+    color: #555;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.projetos {
+    padding: 4rem 2rem;
+    background: #f4f8fc;
+}
+
+.projetos > header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.projetos h2 {
+    color: #0f2a4a;
+    font-size: 1.8rem;
+}
+
+.cardProjeto {
+    display: flex;
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #dce6f0;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: left;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.cardConteudo {
+    padding: 1.5rem;
+}
+
+.cardConteudo h3 {
+    color: #0f2a4a;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.cardConteudo p {
+    color: #555;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 3rem 1.5rem;
+    }
+
+    .hero h1 {
+        font-size: 1.6rem;
+    }
+
+    .cardProjeto {
+        flex-direction: column;
+    }
+}

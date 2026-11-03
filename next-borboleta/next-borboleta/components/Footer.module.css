@@ -1,0 +1,17 @@
+/*
+ * Vinicius Alves - RA 10771489
+ * Pedro Jobe - RA 10743750
+ * Diego Campos - RA 10771507
+ * Nicolas Braga - RA 10777202
+ */
+
+.rodape {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    background: #0f2a4a;
+    color: #a9c9f0;
+    font-size: 0.85rem;
+    text-align: center;
+}

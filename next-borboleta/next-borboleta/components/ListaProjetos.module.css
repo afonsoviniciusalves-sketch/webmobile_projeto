@@ -1,0 +1,63 @@
+/*
+ * Vinicius Alves - RA 10771489
+ * Pedro Jobe - RA 10743750
+ * Diego Campos - RA 10771507
+ * Nicolas Braga - RA 10777202
+ */
+
+.filtrosSecao {
+    background: #ffffff;
+    padding: 2rem;
+    text-align: center;
+}
+
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    max-width: 900px;
+    margin: 0 auto 1.5rem;
+}
+
+.filtroBtn {
+    background: #f4f8fc;
+    border: 1px solid #dce6f0;
+    color: #0f2a4a;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.filtroBtn.ativo {
+    background: #2e8bff;
+    border-color: #2e8bff;
+    color: #ffffff;
+}
+
+.ordenarBtn {
+    background: #ffffff;
+    border: 1px solid #0f2a4a;
+    color: #0f2a4a;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.gridSecao {
+    background: #f4f8fc;
+    padding: 1rem 2rem 4rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
