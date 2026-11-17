@@ -1,0 +1,97 @@
+/*
+ * Vinicius Alves - RA 10771489
+ * Pedro Jobe - RA 10743750
+ * Diego Campos - RA 10771507
+ * Nicolas Braga - RA 10777202
+ */
+
+.secao {
+    background: #f4f8fc;
+    padding: 3rem 2rem 4rem;
+}
+
+.card {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #0f2a4a;
+    padding: 2.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.card h1 {
+    color: #0f2a4a;
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.form input,
+.form textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #000000;
+    font-size: 0.95rem;
+    font-weight: normal;
+    outline: none;
+    background-color: #fcfcfc;
+}
+
+.form textarea {
+    resize: vertical;
+}
+
+.form input:focus,
+.form textarea:focus {
+    border-color: #2e8bff;
+    background-color: #ffffff;
+}
+
+.erro {
+    color: #d64545;
+    font-size: 0.85rem;
+}
+
+.enviar {
+    background-color: #0f2a4a;
+    color: #ffffff;
+    border: none;
+    padding: 0.9rem;
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.enviar:hover {
+    background-color: #2e8bff;
+}
+
+.enviar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.cancelar {
+    text-align: center;
+    color: #2e8bff;
+    font-size: 0.9rem;
+}
+
+.cancelar:hover {
+    color: #0f2a4a;
+}

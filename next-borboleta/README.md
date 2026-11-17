@@ -9,8 +9,9 @@ A plataforma reúne, em um único ambiente digital, informações sobre os traba
 Na Parte 2, o site passou a contar com:
 
 * interface dividida em componentes reutilizáveis (`Header`, `Footer`, `CardProjeto`, `Tecnologias`, entre outros);
-* estado interno (`useState`) controlando filtro, ordenação e formulários, e efeito (`useEffect`) na animação de scroll;
-* dados dos projetos centralizados em `data/projetos.ts`, usados pela lista e pelo detalhe (a integração com a API fornecida pela professora será feita em uma etapa seguinte);
+* estado interno (`useState`) e efeitos (`useEffect`) controlando filtro, ordenação, formulários e o carregamento dos dados;
+* uma API construída dentro do próprio Next.js (`/api/projetos`), com listagem, cadastro, busca, atualização e exclusão de projetos (GET, POST, PUT e DELETE), seguindo a Aula 10 da disciplina;
+* consumo dessa API pela interface com `fetch`, para preencher a lista, o detalhe e os formulários de forma dinâmica;
 * rotas simples (`/`, `/produtos`, `/login`, `/registrar`) e uma rota dinâmica (`/produtos/[id]`);
 * estilos com CSS Modules por componente e um `globals.css` para o que é comum a todo o site (sem Tailwind).
 
@@ -58,7 +59,7 @@ O wireframe da Parte 2 foi feito em tons neutros (cinza e branco), com foco apen
 
 ### Mapa de rotas
 
-No App Router do Next.js, cada pasta dentro de `app/` que contém um arquivo `page.tsx` vira uma rota. Uma pasta entre colchetes, como `[id]`, vira uma rota dinâmica.
+No App Router do Next.js, cada pasta dentro de `app/` que contém um arquivo `page.tsx` vira uma rota. Uma pasta entre colchetes, como `[id]`, vira uma rota dinâmica. Uma pasta com `route.ts` vira uma rota de API.
 
 | Rota | Tipo | Arquivo |
 |---|---|---|
@@ -66,7 +67,11 @@ No App Router do Next.js, cada pasta dentro de `app/` que contém um arquivo `pa
 | `/produtos` | Simples | `app/produtos/page.tsx` |
 | `/login` | Simples | `app/login/page.tsx` |
 | `/registrar` | Simples | `app/registrar/page.tsx` |
+| `/produtos/novo` | Simples | `app/produtos/novo/page.tsx` |
 | `/produtos/[id]` | Dinâmica | `app/produtos/[id]/page.tsx` |
+| `/produtos/[id]/editar` | Dinâmica | `app/produtos/[id]/editar/page.tsx` |
+| `/api/projetos` | API | `app/api/projetos/route.ts` |
+| `/api/projetos/[id]` | API (dinâmica) | `app/api/projetos/[id]/route.ts` |
 
 ---
 
@@ -85,6 +90,7 @@ No Projeto 1, cada página era um HTML separado e o JavaScript montava os cards 
 * **Reutilização:** o cabeçalho, o rodapé, o card de projeto e a lista de tecnologias são escritos uma única vez e usados em várias páginas. No Projeto 1, o cabeçalho era copiado em cada HTML.
 * **Manutenção:** uma alteração no componente se reflete em todo o site.
 * **Interface reativa:** quando o estado muda (por exemplo, o filtro de tecnologia), o React atualiza apenas a parte da tela afetada, sem manipular o DOM manualmente.
+* **API no mesmo projeto:** o Next.js permite criar a API junto do site, sem servidor separado.
 * **Rotas por pastas:** cada pasta com `page.tsx` dentro de `app/` vira uma rota. O detalhe do projeto deixou de ser um bloco escondido/mostrado com `display` e virou uma página própria, com URL compartilhável (`/produtos/2`).
 * **Estilos isolados:** com CSS Modules, as classes de um componente não vazam para o resto do site.
 
@@ -95,10 +101,19 @@ No Projeto 1, cada página era um HTML separado e o JavaScript montava os cards 
 ```
 next-borboleta/
 ├── app/
+│   ├── api/
+│   │   └── projetos/
+│   │       ├── [id]/
+│   │       │   └── route.ts
+│   │       └── route.ts
 │   ├── login/
 │   │   └── page.tsx
 │   ├── produtos/
 │   │   ├── [id]/
+│   │   │   ├── editar/
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── novo/
 │   │   │   └── page.tsx
 │   │   ├── page.tsx
 │   │   └── produtos.module.css
@@ -115,6 +130,7 @@ next-borboleta/
 │   ├── CardProjeto.tsx / .module.css
 │   ├── DetalheProjeto.tsx / .module.css
 │   ├── FadeScroll.tsx
+│   ├── FormProjeto.tsx / .module.css
 │   ├── Footer.tsx / .module.css
 │   ├── FormLogin.tsx
 │   ├── FormRegistrar.tsx
@@ -123,8 +139,10 @@ next-borboleta/
 │   ├── ListaProjetos.tsx / .module.css
 │   └── Tecnologias.tsx / .module.css
 ├── data/
-│   ├── passos.ts
-│   └── projetos.ts
+│   └── passos.ts
+├── lib/
+│   ├── db.ts
+│   └── validacao.ts
 ├── types/
 │   └── projeto.ts
 ├── public/
@@ -137,107 +155,212 @@ next-borboleta/
 * `app/layout.tsx`: layout raiz, que envolve todas as páginas (`html`, `body`, idioma e título).
 * `app/globals.css`: apenas o que é comum ao site todo (reset, fonte e a classe `fade-item`).
 * `components/`: componentes reutilizáveis, cada um com seu `.module.css`.
-* `data/projetos.ts`: os dados fixos (mockados) dos projetos, usados pela lista e pelo detalhe.
+* `lib/db.ts`: fonte de dados em memória (um array com os 5 projetos iniciais) e as funções que o alteram.
+* `lib/validacao.ts`: confere se os dados recebidos nas requisições POST e PUT são válidos.
 * `types/projeto.ts`: tipo TypeScript de um projeto.
+
+---
+
+## A API
+
+A API segue a Aula 10 da disciplina: uma rota de API do Next.js recebe a requisição, executa a ação (listar, cadastrar, buscar, atualizar ou excluir) sobre os dados e devolve a resposta em JSON.
+
+```
+Interface React  --fetch-->  Rota de API (Next.js)  -->  lib/db.ts (dados em memória)
+```
+
+| Ação | Método | Endpoint | Resposta |
+|---|---|---|---|
+| Listar | GET | `/api/projetos` | 200 com a lista de projetos |
+| Cadastrar | POST | `/api/projetos` | 201 com o projeto criado, ou 400 se os dados forem inválidos |
+| Buscar | GET | `/api/projetos/[id]` | 200 com o projeto, ou 404 |
+| Atualizar | PUT | `/api/projetos/[id]` | 200 com o projeto atualizado, 400 ou 404 |
+| Excluir | DELETE | `/api/projetos/[id]` | 200 com a confirmação, ou 404 |
+
+Um projeto tem os campos `id`, `nome`, `descricao`, `detalhes`, `autor`, `prazo`, `preco` e `tecnologias` (lista de textos). No cadastro e na atualização, `nome`, `descricao`, `detalhes`, `prazo`, `preco` e ao menos uma tecnologia são obrigatórios. O `autor` é opcional e, se não vier, assume "Desenvolvedor myIT". O `id` é gerado pela própria API.
+
+**Dados em memória:** os projetos ficam em um array em `lib/db.ts`, como mostrado na aula. Enquanto o servidor está ativo, as operações alteram esse array. Quando o servidor reinicia, os dados voltam aos 5 projetos iniciais, pois não há banco de dados.
+
+**Onde a API é usada no site:**
+
+| Tela | Chamada |
+|---|---|
+| `/produtos` (lista) | GET `/api/projetos` |
+| `/produtos/[id]` (detalhe) | GET `/api/projetos/[id]` e DELETE `/api/projetos/[id]` (botão Excluir) |
+| `/produtos/novo` | POST `/api/projetos` |
+| `/produtos/[id]/editar` | GET e PUT `/api/projetos/[id]` |
 
 ---
 
 ## Trechos de código
 
-### 1. Dados dos projetos (`data/projetos.ts`)
-
-Os projetos ficam em um único arquivo, tipados com o `Projeto` de `types/projeto.ts`. Lista e detalhe leem daqui, então trocar a origem dos dados (por exemplo, pela API da professora) fica concentrado em poucos pontos.
+### 1. Fonte de dados em memória (`lib/db.ts`)
 
 ```ts
-export const projetos: Projeto[] = [
-  {
-    id: 1,
-    nome: "Loja Virtual",
-    descricao: "E-commerce simples com carrinho de compras.",
-    detalhes: "Loja online com vitrine de produtos, página de detalhes e carrinho de compras...",
-    autor: "Desenvolvedor myIT",
-    prazo: "30 dias",
-    preco: "R$ 1.800",
-    tecnologias: ["HTML", "CSS", "JavaScript"],
-  },
-  // ... mais 4 projetos (Dashboard de Vendas, App de Tarefas, Blog Pessoal, API de Clima)
-];
+// guarda o array em globalThis para que ele sobreviva a recarregamentos em desenvolvimento
+const global = globalThis as typeof globalThis & { projetosDb?: Projeto[] };
+
+if (!global.projetosDb) {
+  global.projetosDb = inicial;
+}
+
+const projetos = global.projetosDb;
+
+export function listar(): Projeto[] {
+  return projetos;
+}
+
+export function criar(dados: NovoProjeto): Projeto {
+  // o novo id é o maior id existente + 1
+  const id = projetos.reduce((maior, projeto) => Math.max(maior, projeto.id), 0) + 1;
+  const novo: Projeto = { id, ...dados };
+  projetos.push(novo);
+  return novo;
+}
 ```
 
-### 2. Filtro e ordenação com `useState` (`components/ListaProjetos.tsx`)
+### 2. Listar e cadastrar (`app/api/projetos/route.ts`)
+
+Em Next.js, um arquivo `route.ts` que exporta funções com o nome do método HTTP cria uma rota de API.
+
+```ts
+export async function GET() {
+  // connection() indica que a resposta deve ser gerada a cada requisição
+  await connection();
+  return Response.json(listar());
+}
+
+export async function POST(request: Request) {
+  // lê o corpo JSON da requisição (null se vier quebrado)
+  const dados = await request.json().catch(() => null);
+  const projeto = validarProjeto(dados);
+
+  // dados inválidos: responde 400
+  if (!projeto) {
+    return Response.json({ erro: "Dados inválidos" }, { status: 400 });
+  }
+
+  // projeto criado: responde 201
+  return Response.json(criar(projeto), { status: 201 });
+}
+```
+
+### 3. Buscar, atualizar e excluir (`app/api/projetos/[id]/route.ts`)
+
+O nome da pasta entre colchetes indica que `id` é um parâmetro da URL. A mesma rota atende `/api/projetos/1`, `/api/projetos/2` e assim por diante.
+
+```ts
+export async function GET(_request: Request, { params }: RouteContext<"/api/projetos/[id]">) {
+  await connection();
+  // lê o parâmetro [id] da URL
+  const { id } = await params;
+  const projeto = buscar(Number(id));
+
+  if (!projeto) {
+    return Response.json({ erro: "Projeto não encontrado" }, { status: 404 });
+  }
+
+  return Response.json(projeto);
+}
+
+export async function DELETE(_request: Request, { params }: RouteContext<"/api/projetos/[id]">) {
+  const { id } = await params;
+
+  if (!excluir(Number(id))) {
+    return Response.json({ erro: "Projeto não encontrado" }, { status: 404 });
+  }
+
+  return Response.json({ mensagem: "Projeto excluído" });
+}
+```
+
+O PUT segue a mesma ideia: lê o corpo, valida e chama `atualizar(id, projeto)`.
+
+### 4. Consumindo a API com `fetch` (`components/ListaProjetos.tsx`)
 
 ```tsx
 "use client";
 
 export default function ListaProjetos() {
-  // estados: tecnologia escolhida no filtro e se a lista está ordenada
+  // estados: lista vinda da API, filtro, ordenação, carregamento e erro
+  const [projetos, setProjetos] = useState<Projeto[]>([]);
   const [filtro, setFiltro] = useState("todos");
   const [ordenado, setOrdenado] = useState(false);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(false);
 
-  // tecnologias únicas, sem repetir (reduce + spread)
-  const tecnologias = projetos.reduce<string[]>((acumulado, projeto) => {
-    const novas = projeto.tecnologias.filter((tec) => !acumulado.includes(tec));
-    return [...acumulado, ...novas];
+  // roda uma vez, quando o componente aparece, e busca os dados na API
+  useEffect(() => {
+    fetch("/api/projetos", { cache: "no-store" })
+      .then((resposta) => resposta.json())   // converte a resposta em JSON
+      .then((dados: Projeto[]) => setProjetos(dados))   // atualiza o estado
+      .catch(() => setErro(true))
+      .finally(() => setCarregando(false));
   }, []);
 
-  // aplica o filtro escolhido
-  const filtrados =
-    filtro === "todos"
-      ? projetos
-      : projetos.filter((projeto) => projeto.tecnologias.includes(filtro));
-
-  // aplica a ordenação A-Z em uma cópia da lista
-  const exibidos = ordenado
-    ? [...filtrados].sort((a, b) => a.nome.localeCompare(b.nome))
-    : filtrados;
-
-  // ... cards desenhados com exibidos.map(...)
+  // ...
 }
 ```
 
-`"use client"` indica que o componente roda no navegador, o que é necessário para usar `useState` e eventos de clique. Quando `filtro` ou `ordenado` mudam, o React redesenha a lista sozinho.
+`"use client"` indica que o componente roda no navegador, o que é necessário para usar `useState`, `useEffect` e eventos de clique.
 
-### 3. Rota dinâmica (`app/produtos/[id]/page.tsx`)
+### 5. Filtro e ordenação derivados do estado (`components/ListaProjetos.tsx`)
 
-O nome da pasta entre colchetes indica que `id` é um parâmetro da URL. Acessar `/produtos/2` mostra o projeto de id 2.
+```tsx
+// aplica o filtro escolhido
+const filtrados =
+  filtro === "todos"
+    ? projetos
+    : projetos.filter((projeto) => projeto.tecnologias.includes(filtro));
+
+// aplica a ordenação A-Z em uma cópia da lista
+const exibidos = ordenado
+  ? [...filtrados].sort((a, b) => a.nome.localeCompare(b.nome))
+  : filtrados;
+```
+
+Os cards são desenhados com `exibidos.map(...)`. Quando `filtro` ou `ordenado` mudam, o React redesenha a lista sozinho.
+
+### 6. POST, PUT e DELETE com `fetch` (`components/FormProjeto.tsx` e `components/DetalheProjeto.tsx`)
+
+```tsx
+// cadastro (POST) ou edição (PUT), conforme exista ou não um id
+const resposta = await fetch(id === undefined ? "/api/projetos" : `/api/projetos/${id}`, {
+  method: id === undefined ? "POST" : "PUT",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ ...campos, tecnologias }),
+});
+
+// exclusão (DELETE): não envia corpo
+await fetch(`/api/projetos/${id}`, { method: "DELETE" });
+```
+
+Nos três casos o `fetch` informa o método e, quando necessário, envia o corpo em JSON.
+
+### 7. Rota dinâmica de página (`app/produtos/[id]/page.tsx`)
 
 ```tsx
 // gera, na compilação, as páginas /produtos/1 até /produtos/5
 export function generateStaticParams() {
-  return projetos.map((projeto) => ({ id: String(projeto.id) }));
+  return listar().map((projeto) => ({ id: String(projeto.id) }));
 }
 
 export default async function ProjetoPage({ params }: PageProps<"/produtos/[id]">) {
-  // lê o parâmetro [id] da URL
+  // lê o parâmetro [id] da URL e entrega ao componente, que busca na API
   const { id } = await params;
-
-  // procura o projeto cujo id é igual ao da URL
-  const projeto = projetos.find((item) => item.id === Number(id));
-
-  // se não existir, mostra a página de "não encontrado"
-  if (!projeto) {
-    notFound();
-  }
 
   return (
     <>
       <Header />
       <main>
-        <DetalheProjeto projeto={projeto} />
+        <DetalheProjeto id={Number(id)} />
       </main>
     </>
   );
 }
 ```
 
-### 4. Navegação entre páginas (`components/CardProjeto.tsx`)
-
-```tsx
-// Link navega sem recarregar a página; o id vem do projeto
-<BotaoLink href={`/produtos/${projeto.id}`}>VER PROJETO</BotaoLink>
-```
-
-### 5. Formulários controlados com validação (`components/FormRegistrar.tsx`)
+### 8. Formulário controlado com validação (`components/FormRegistrar.tsx`)
 
 ```tsx
 const [senha, setSenha] = useState("");
@@ -266,9 +389,7 @@ function validarCadastro(e: FormEvent<HTMLFormElement>) {
 }
 ```
 
-Os campos de senha são "controlados": o valor vem do estado (`value={senha}`) e é atualizado a cada digitação (`onChange`). A mensagem de erro aparece apenas quando o estado `erro` tem texto.
-
-### 6. Animação de aparecer ao rolar a página (`components/FadeScroll.tsx`)
+### 9. Animação de aparecer ao rolar a página (`components/FadeScroll.tsx`)
 
 ```tsx
 useEffect(() => {
@@ -316,6 +437,18 @@ npm run dev
 
 Depois, acessar `http://localhost:3000` no navegador.
 
+Para testar a API diretamente no navegador: `http://localhost:3000/api/projetos` e `http://localhost:3000/api/projetos/1`.
+
+Para testar POST, PUT e DELETE sem usar o site (em outro terminal):
+
+```bash
+curl -X POST http://localhost:3000/api/projetos -H "Content-Type: application/json" -d '{"nome":"Portfólio","descricao":"Site pessoal","detalhes":"Portfólio com projetos","prazo":"10 dias","preco":"R$ 700","tecnologias":["HTML","CSS"]}'
+
+curl -X PUT http://localhost:3000/api/projetos/6 -H "Content-Type: application/json" -d '{"nome":"Portfólio v2","descricao":"Site pessoal","detalhes":"Portfólio","prazo":"12 dias","preco":"R$ 800","tecnologias":["HTML","CSS","React"]}'
+
+curl -X DELETE http://localhost:3000/api/projetos/6
+```
+
 Outros comandos (`package.json`): `npm run build` (gera a versão de produção), `npm run start` (executa a versão de produção) e `npm run lint` (verifica o código).
 
 ---
@@ -334,7 +467,7 @@ Outros comandos (`package.json`): `npm run build` (gera a versão de produção)
 * Finalidade e forma de uso:
   * [ex.: ideação e criação do wireframe]
   * [ex.: conversão do projeto do Projeto 1 para componentes React/Next.js]
-  * [ex.: auxílio na lógica de filtro, ordenação e rotas]
+  * [ex.: auxílio na construção da API e no consumo com fetch]
   * [ex.: debug de erros]
 * Caso nenhuma IA tenha sido utilizada, declarar aqui.
 
@@ -345,5 +478,5 @@ Outros comandos (`package.json`): `npm run build` (gera a versão de produção)
 * [Preencher com o que o grupo aprendeu sobre componentização]
 * [Preencher sobre estado e efeitos (`useState` / `useEffect`)]
 * [Preencher sobre rotas simples e dinâmicas no Next.js]
-* [Preencher sobre os dados dos projetos e a integração com a API da professora]
+* [Preencher sobre a criação e o consumo da API (GET, POST, PUT e DELETE)]
 * [Dificuldades encontradas e como foram resolvidas]

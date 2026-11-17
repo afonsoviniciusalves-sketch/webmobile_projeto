@@ -5,14 +5,26 @@
 
 "use client";
 
-import { useState } from "react";
-import { projetos } from "@/data/projetos";
+import { useEffect, useState } from "react";
+import type { Projeto } from "@/types/projeto";
+import BotaoLink from "./BotaoLink";
 import CardProjeto from "./CardProjeto";
 import styles from "./ListaProjetos.module.css";
 
 export default function ListaProjetos() {
+  const [projetos, setProjetos] = useState<Projeto[]>([]);
   const [filtro, setFiltro] = useState("todos");
   const [ordenado, setOrdenado] = useState(false);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/projetos", { cache: "no-store" })
+      .then((resposta) => resposta.json())
+      .then((dados: Projeto[]) => setProjetos(dados))
+      .catch(() => setErro(true))
+      .finally(() => setCarregando(false));
+  }, []);
 
   const tecnologias = projetos.reduce<string[]>((acumulado, projeto) => {
     const novas = projeto.tecnologias.filter((tec) => !acumulado.includes(tec));
@@ -48,9 +60,17 @@ export default function ListaProjetos() {
         >
           Ordenar por nome (A-Z)
         </button>
+        <p className={styles.novo}>
+          <BotaoLink href="/produtos/novo">NOVO PROJETO</BotaoLink>
+        </p>
       </section>
 
       <section className={styles.gridSecao}>
+        {carregando && <p className={styles.aviso}>Carregando projetos...</p>}
+        {erro && <p className={styles.erro}>Não foi possível carregar os projetos.</p>}
+        {!carregando && !erro && exibidos.length === 0 && (
+          <p className={styles.aviso}>Nenhum projeto encontrado.</p>
+        )}
         <div className={styles.grid}>
           {exibidos.map((projeto) => (
             <CardProjeto key={projeto.id} projeto={projeto} />

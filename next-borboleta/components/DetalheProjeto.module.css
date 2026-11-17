@@ -52,27 +52,67 @@
 }
 
 .info {
-    display: flex;
-    gap: 2rem;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: auto auto;
+    justify-content: start;
+    column-gap: 2rem;
+    row-gap: 0.25rem;
     margin: 1.5rem 0;
     padding: 1rem 0;
     border-top: 1px solid #dce6f0;
     border-bottom: 1px solid #dce6f0;
 }
 
-.info div {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-.info span {
+.info dt {
     color: #555;
     font-size: 0.75rem;
     font-weight: 600;
 }
 
-.info strong {
+.info dd {
     color: #0f2a4a;
     font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.acoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.excluir {
+    background: #ffffff;
+    border: 1px solid #d64545;
+    color: #d64545;
+    padding: 0.6rem 1.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.excluir:hover {
+    background: #d64545;
+    color: #ffffff;
+}
+
+.cancelar {
+    background: #ffffff;
+    border: 1px solid #0f2a4a;
+    color: #0f2a4a;
+    padding: 0.6rem 1.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.erro {
+    color: #d64545;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
 }

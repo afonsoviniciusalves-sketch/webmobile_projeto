@@ -4,32 +4,26 @@
 // Nicolas Braga - RA 10777202
 
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import DetalheProjeto from "@/components/DetalheProjeto";
-import { projetos } from "@/data/projetos";
+import { listar } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Detalhes do projeto - Projeto Extensionista | myIT",
 };
 
 export function generateStaticParams() {
-  return projetos.map((projeto) => ({ id: String(projeto.id) }));
+  return listar().map((projeto) => ({ id: String(projeto.id) }));
 }
 
 export default async function ProjetoPage({ params }: PageProps<"/produtos/[id]">) {
   const { id } = await params;
-  const projeto = projetos.find((item) => item.id === Number(id));
-
-  if (!projeto) {
-    notFound();
-  }
 
   return (
     <>
       <Header />
       <main>
-        <DetalheProjeto projeto={projeto} />
+        <DetalheProjeto id={Number(id)} />
       </main>
     </>
   );
